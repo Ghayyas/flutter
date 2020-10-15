@@ -1,15 +1,26 @@
 import 'package:bloc/bloc.dart';
 
-class CounterCubit extends Cubit<int> {
-  CounterCubit() : super(0);
+class CounterCubit extends Cubit<String> {
+  CounterCubit() : super("A");
+  int start = "B".codeUnitAt(0);
+  int end = "Z".codeUnitAt(0);
 
   //increment
-  void increment() => emit(state + 1);
-// decrement
-  void decrement() {
-    if (state == 0) {
+  void increment() {
+    if (start > end) {
       return;
     }
-    emit(state - 1);
+    emit(state + String.fromCharCode(start));
+    start++;
+  }
+
+// decrement
+  void decrement() {
+    if (state == "A") {
+      return;
+    }
+    // emit(state + String.fromCharCode(c));
+    start--;
+    emit(state.substring(0, state.length - 1));
   }
 }
