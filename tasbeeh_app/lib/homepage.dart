@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:get/get.dart';
 
 Color iconColors = Color(0xff4ed6e1);
 
 class MyHomePage extends StatelessWidget {
-  int numVal = 0;
+  // int numVal = 0;
+  final controller = Get.put(Controller());
+  final Controller ctrl = Get.find();
+
+  // print(ctrl.percent);
+
+  var numVal = 0.obs;
+  //RxDouble<double> per = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
+    //print(ctrl.percent.abs());
+
     // CircularProgressIndicator(strokeWidth: 5, value: 0.7);
     Widget bigCircle = new Container(
       width: 253.0,
@@ -17,10 +27,12 @@ class MyHomePage extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Center(
-        child: Text("$numVal",
+          child: //Text("${ctrl.count}"),
+              Obx(
+        () => Text("$numVal",
             style: TextStyle(
                 fontFamily: 'digital', fontSize: 100.4, color: iconColors)),
-      ),
+      )),
     );
     return Scaffold(
       // appBar: AppBar(),
@@ -91,18 +103,21 @@ class MyHomePage extends StatelessWidget {
             Container(
                 padding: EdgeInsets.only(top: 200),
                 child: GestureDetector(
-                  onTap: null,
+                  onTap: () => {numVal++, controller.increment()},
                   child: Center(
-                      child: new CircularPercentIndicator(
-                    radius: 260.0,
-                    animation: true,
-                    animationDuration: 1200,
-                    lineWidth: 5.0,
-                    percent: .06,
-                    center: bigCircle,
-                    progressColor: iconColors,
-                    backgroundColor: Color(0xff313b45),
-                  )),
+                    child: Obx(() => CircularPercentIndicator(
+                          radius: 260.0,
+                          // animation: true,
+                          //animationDuration: 100,
+                          lineWidth: 5.0,
+                          percent: ctrl.percent.abs(),
+                          center: bigCircle,
+                          circularStrokeCap: CircularStrokeCap.round,
+
+                          progressColor: iconColors,
+                          backgroundColor: Color(0xff313b45),
+                        )),
+                  ),
                 ))
           ],
         ),
@@ -123,6 +138,7 @@ Future<void> _showMyDialog(context) async {
           style: TextStyle(color: Color(0xff56ccd7)),
         )),
         content: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 20),
           child: ListBody(
             children: <Widget>[
               Center(
@@ -139,10 +155,10 @@ Future<void> _showMyDialog(context) async {
             //crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.only(right: 30), //.all(10),
                 child: SizedBox(
                   height: 44,
-                  width: 123,
+                  width: 100,
                   child: RaisedButton(
                     color: Color(0xff465564),
                     onPressed: () {},
@@ -160,7 +176,7 @@ Future<void> _showMyDialog(context) async {
                 // padding: EdgeInsets.only(left: 30),
                 child: SizedBox(
                   height: 44,
-                  width: 123,
+                  width: 100,
                   child: RaisedButton(
                     color: Color(0xff465564),
                     onPressed: () {
@@ -242,4 +258,18 @@ Future<void> _titleDialog(context) async {
           ),
         );
       });
+}
+
+class Controller extends GetxController {
+  // var count = 0;
+
+  var percent = 0.0.obs;
+  void increment() {
+    // count++;
+    percent = percent + 0.02;
+
+    if (percent.abs() > 0.99) {
+      percent = 0.0.obs;
+    }
+  }
 }
