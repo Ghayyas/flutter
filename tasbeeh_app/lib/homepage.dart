@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
 
+import 'counter_list.dart';
+
 Color iconColors = Color(0xff4ed6e1);
 
 class MyHomePage extends StatelessWidget {
@@ -64,7 +66,7 @@ class MyHomePage extends StatelessWidget {
                       color: iconColors,
                       size: 35.0,
                     ),
-                    onPressed: null),
+                    onPressed: () => Get.to(CounterList())),
 
                 Spacer(), // use Spacer
                 // IconButton(
@@ -268,8 +270,9 @@ class Controller extends GetxController {
     // count++;
     percent = percent + 0.02;
 
-    if (percent.abs() > 0.99) {
+    if (percent.abs() > 1.0) {
       percent = 0.0.obs;
     }
+    print(percent);
   }
 }
