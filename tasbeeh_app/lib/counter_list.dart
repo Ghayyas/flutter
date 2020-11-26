@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+var Maincolor = Color(0xff56ccd7);
+
 class CounterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,27 +47,34 @@ class CounterList extends StatelessWidget {
 
 listItem() {
   return Padding(
-    padding: const EdgeInsets.all(3.0),
+    padding: const EdgeInsets.all(1.0),
     child: Card(
       color: Color(0xff455564),
       shape: RoundedRectangleBorder(
-        side: new BorderSide(color: Colors.white),
+        side: new BorderSide(color: Colors.white, width: 0.4),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(3.0),
         child: Row(
           children: [
-            Text(
-              "Hello",
-              style: TextStyle(fontSize: 18.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Hello",
+                textAlign: TextAlign.end,
+                style: TextStyle(fontSize: 18.0, color: Maincolor),
+              ),
             ),
             Spacer(),
             Text(
-              "Hello",
-              style: TextStyle(fontSize: 12.0),
+              "9234",
+              style: TextStyle(
+                  fontSize: 15.0, fontFamily: 'digital', color: Maincolor),
             ),
-            IconButton(icon: Icon(Icons.person_pin_circle), onPressed: null),
-            IconButton(icon: Icon(Icons.close_rounded), onPressed: null)
+            IconButton(icon: Icon(Icons.create_outlined), onPressed: null),
+            IconButton(
+                icon: Icon(Icons.cancel_outlined, color: Maincolor),
+                onPressed: null)
           ],
         ),
       ),
