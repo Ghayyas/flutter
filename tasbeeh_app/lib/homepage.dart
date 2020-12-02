@@ -10,6 +10,7 @@ Color iconColors = Color(0xff4ed6e1);
 final controller = Get.put(Controller());
 final Controller ctrl = Get.find();
 final saveController = TextEditingController();
+var data;
 
 class MyHomePage extends StatelessWidget {
   // int numVal = 0;
@@ -19,11 +20,13 @@ class MyHomePage extends StatelessWidget {
   // print(ctrl.percent);
 
   var numVal = 0.obs;
+
   //RxDouble<double> per = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
     //print(ctrl.percent.abs());
+    controller.calledPre();
 
     // CircularProgressIndicator(strokeWidth: 5, value: 0.7);
     Widget bigCircle = new Container(
@@ -69,7 +72,16 @@ class MyHomePage extends StatelessWidget {
                       color: iconColors,
                       size: 35.0,
                     ),
-                    onPressed: () => _titleDialog(context)),
+                    onPressed: () => {
+                          if (data != null)
+                            {
+                              controller.clearArry(),
+                            }
+                          else
+                            {
+                              _titleDialog(context),
+                            }
+                        }),
 
                 IconButton(
                     icon: Icon(
@@ -77,7 +89,11 @@ class MyHomePage extends StatelessWidget {
                       color: iconColors,
                       size: 35.0,
                     ),
-                    onPressed: () => Get.to(CounterList())),
+                    onPressed: () async {
+                      data = await Get.to(CounterList());
+                      // print(data);
+                      controller.calledPre();
+                    }),
 
                 Spacer(), // use Spacer
                 // IconButton(
@@ -127,7 +143,7 @@ class MyHomePage extends StatelessWidget {
                               // animation: true,
                               //animationDuration: 100,
                               lineWidth: 5.0,
-                              percent: ctrl.percent.abs(),
+                              percent: ctrl.percent?.abs(),
                               center: bigCircle,
                               circularStrokeCap: CircularStrokeCap.round,
 
@@ -269,6 +285,7 @@ Future<void> _titleDialog(context) async {
                         color: Color(0xff465564),
                         onPressed: () {
                           /// print(saveController.text);
+
                           ctrl.arry.add({
                             "id": DateTime.now().millisecondsSinceEpoch,
                             "name": saveController.text,
@@ -278,7 +295,7 @@ Future<void> _titleDialog(context) async {
                           Navigator.pop(context, true);
                           controller.clearArry();
 
-                          print(ctrl.arry);
+                          //print(ctrl.arry);
                           // Timer(Duration(seconds: 2),
                           //     () => controller.clearArray());
 
@@ -302,8 +319,21 @@ Future<void> _titleDialog(context) async {
 class Controller extends GetxController {
   // var count = 0;
   List<dynamic> arry = [];
-  var percent = 0.0.obs;
-  var count = 0.obs;
+  var percent;
+  var count;
+
+  void calledPre() {
+    if (data != null) {
+      print(data['count']);
+
+      percent = data['percent'];
+      count = data['count'];
+    } else {
+      percent = 0.0.obs;
+      count = 0.obs;
+    }
+    update();
+  }
 
   void clearArry() {
     saveController.text = '';

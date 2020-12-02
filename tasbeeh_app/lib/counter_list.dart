@@ -56,39 +56,44 @@ class CounterList extends StatelessWidget {
 
 listItem(arr) {
   // print(arr['count']);
-  return Padding(
-    padding: const EdgeInsets.all(1.0),
-    child: Card(
-      color: Color(0xff455564),
-      shape: RoundedRectangleBorder(
-        side: new BorderSide(color: Colors.white, width: 0.4),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Row(
-          children: <Widget>[
-            //  ctrl.arry.map((e) =>
+  return GestureDetector(
+    onTap: () {
+      Get.back(result: arr);
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(1.0),
+      child: Card(
+        color: Color(0xff455564),
+        shape: RoundedRectangleBorder(
+          side: new BorderSide(color: Colors.white, width: 0.4),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Row(
+            children: <Widget>[
+              //  ctrl.arry.map((e) =>
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "${arr['name']}",
-                textAlign: TextAlign.end,
-                style: TextStyle(fontSize: 18.0, color: Maincolor),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "${arr['name']}",
+                  textAlign: TextAlign.end,
+                  style: TextStyle(fontSize: 18.0, color: Maincolor),
+                ),
               ),
-            ),
-            Spacer(),
-            Text(
-              //'43',
-              "${arr['count']}",
-              style: TextStyle(
-                  fontSize: 15.0, fontFamily: 'digital', color: Maincolor),
-            ),
-            IconButton(icon: Icon(Icons.create_outlined), onPressed: null),
-            IconButton(
-                icon: Icon(Icons.cancel_outlined, color: Maincolor),
-                onPressed: null)
-          ],
+              Spacer(),
+              Text(
+                //'43',
+                "${arr['count']}",
+                style: TextStyle(
+                    fontSize: 15.0, fontFamily: 'digital', color: Maincolor),
+              ),
+              IconButton(icon: Icon(Icons.create_outlined), onPressed: null),
+              IconButton(
+                  icon: Icon(Icons.cancel_outlined, color: Maincolor),
+                  onPressed: null)
+            ],
+          ),
         ),
       ),
     ),
