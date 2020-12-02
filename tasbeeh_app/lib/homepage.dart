@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
@@ -5,11 +7,14 @@ import 'package:get/get.dart';
 import 'counter_list.dart';
 
 Color iconColors = Color(0xff4ed6e1);
+final controller = Get.put(Controller());
+final Controller ctrl = Get.find();
+final saveController = TextEditingController();
 
 class MyHomePage extends StatelessWidget {
   // int numVal = 0;
-  final controller = Get.put(Controller());
-  final Controller ctrl = Get.find();
+  // final controller = Get.put(Controller());
+  // final Controller ctrl = Get.find();
 
   // print(ctrl.percent);
 
@@ -29,11 +34,17 @@ class MyHomePage extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Center(
-          child: //Text("${ctrl.count}"),
-              Obx(
-        () => Text("$numVal",
-            style: TextStyle(
-                fontFamily: 'digital', fontSize: 100.4, color: iconColors)),
+          child: //Text(ctrl.count.toString()),
+              GetBuilder<GetxController>(
+        init: controller,
+        initState: (_) {},
+        builder: (_) {
+          return Obx(
+            () => Text("${ctrl.count}",
+                style: TextStyle(
+                    fontFamily: 'digital', fontSize: 100.4, color: iconColors)),
+          );
+        },
       )),
     );
     return Scaffold(
@@ -104,22 +115,28 @@ class MyHomePage extends StatelessWidget {
             ),
             Container(
                 padding: EdgeInsets.only(top: 200),
-                child: GestureDetector(
-                  onTap: () => {numVal++, controller.increment()},
-                  child: Center(
-                    child: Obx(() => CircularPercentIndicator(
-                          radius: 260.0,
-                          // animation: true,
-                          //animationDuration: 100,
-                          lineWidth: 5.0,
-                          percent: ctrl.percent.abs(),
-                          center: bigCircle,
-                          circularStrokeCap: CircularStrokeCap.round,
+                child: GetBuilder<GetxController>(
+                  init: controller,
+                  initState: (_) {},
+                  builder: (_) {
+                    return GestureDetector(
+                      onTap: () => {controller.increment()},
+                      child: Center(
+                        child: Obx(() => CircularPercentIndicator(
+                              radius: 260.0,
+                              // animation: true,
+                              //animationDuration: 100,
+                              lineWidth: 5.0,
+                              percent: ctrl.percent.abs(),
+                              center: bigCircle,
+                              circularStrokeCap: CircularStrokeCap.round,
 
-                          progressColor: iconColors,
-                          backgroundColor: Color(0xff313b45),
-                        )),
-                  ),
+                              progressColor: iconColors,
+                              backgroundColor: Color(0xff313b45),
+                            )),
+                      ),
+                    );
+                  },
                 ))
           ],
         ),
@@ -140,7 +157,7 @@ Future<void> _showMyDialog(context) async {
           style: TextStyle(color: Color(0xff56ccd7)),
         )),
         content: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 20),
+          // padding: EdgeInsets.only(bottom: 2),
           child: ListBody(
             children: <Widget>[
               Center(
@@ -163,7 +180,10 @@ Future<void> _showMyDialog(context) async {
                   width: 100,
                   child: RaisedButton(
                     color: Color(0xff465564),
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.clearArry();
+                      Navigator.of(context).pop();
+                    },
                     child: const Text('YES',
                         style:
                             TextStyle(fontSize: 12, color: Color(0xff56ccd7))),
@@ -237,6 +257,7 @@ Future<void> _titleDialog(context) async {
                       hintText: 'Title',
                       hintStyle: TextStyle(color: const Color(0xFF1BC0C5)),
                       focusColor: const Color(0xFF1BC0C5)),
+                  controller: saveController,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -246,7 +267,23 @@ Future<void> _titleDialog(context) async {
                       height: 45,
                       child: RaisedButton(
                         color: Color(0xff465564),
-                        onPressed: () {},
+                        onPressed: () {
+                          /// print(saveController.text);
+                          ctrl.arry.add({
+                            "id": DateTime.now().millisecondsSinceEpoch,
+                            "name": saveController.text,
+                            "count": ctrl.count,
+                            "percent": ctrl.percent
+                          });
+                          Navigator.pop(context, true);
+                          controller.clearArry();
+
+                          print(ctrl.arry);
+                          // Timer(Duration(seconds: 2),
+                          //     () => controller.clearArray());
+
+                          //ctrl.arry.add()
+                        },
                         child: Text(
                           "Save",
                           style: TextStyle(color: const Color(0xFF1BC0C5)),
@@ -264,15 +301,25 @@ Future<void> _titleDialog(context) async {
 
 class Controller extends GetxController {
   // var count = 0;
-
+  List<dynamic> arry = [];
   var percent = 0.0.obs;
+  var count = 0.obs;
+
+  void clearArry() {
+    saveController.text = '';
+    count = 0.obs;
+    percent = 0.0.obs;
+    update();
+  }
+
   void increment() {
-    // count++;
+    count++;
     percent = percent + 0.02;
 
     if (percent.abs() > 1.0) {
       percent = 0.0.obs;
     }
-    print(percent);
+
+    //  print(arry);
   }
 }
