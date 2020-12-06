@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
+import 'package:tasbeeh_app/settings.dart';
 
 import 'counter_list.dart';
 
@@ -20,6 +21,7 @@ class MyHomePage extends StatelessWidget {
   // print(ctrl.percent);
 
   var numVal = 0.obs;
+  String dropValue;
 
   //RxDouble<double> per = 0.0.obs;
 
@@ -113,7 +115,21 @@ class MyHomePage extends StatelessWidget {
                     height: 0,
                     //color: Colors.deepPurpleAccent,
                   ),
-                  onChanged: (String newValue) {},
+                  onChanged: (String newValue) {
+                    dropValue = newValue;
+                  },
+                  onTap: () {
+                    switch (dropValue) {
+                      case ('Settings'):
+                        //print(dropValue);
+                        Get.to(Settings());
+                        break;
+                      case ('Counter list'):
+                        //print(dropValue);
+                        Get.to(CounterList());
+                        break;
+                    }
+                  },
                   items: <String>[
                     'Settings',
                     'Counter list',
@@ -124,6 +140,7 @@ class MyHomePage extends StatelessWidget {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
+                      onTap: () {},
                     );
                   }).toList(),
                 ),
@@ -321,6 +338,7 @@ class Controller extends GetxController {
   List<dynamic> arry = [];
   var percent;
   var count;
+  var dropValue = 'Settings'.obs;
 
   void calledPre() {
     if (data != null) {
