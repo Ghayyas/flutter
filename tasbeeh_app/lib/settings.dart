@@ -3,12 +3,23 @@ import 'package:get/get.dart';
 
 import 'rxController/rxController.dart';
 
+final controller = Get.put(SwitchController());
+final SwitchController ctrl = Get.find();
+//var showBorder = [];
+var boxAry = [
+  {"dColor": Color(0xff313b45), "textColor": Color(0xff56ccd7)},
+  {"dColor": Colors.black, "textColor": Colors.yellowAccent},
+  {"dColor": Colors.grey, "textColor": Colors.green},
+  {"dColor": Colors.blueAccent, "textColor": Colors.red},
+  {"dColor": Colors.purple, "textColor": Colors.red},
+  {"dColor": Color(0xffB0BEC5), "textColor": Colors.yellowAccent},
+  {"dColor": Color(0xff313b45), "textColor": Color(0xff56ccd7)}
+];
+
 class Settings extends StatelessWidget {
-  var Maincolor = Color(0xff313b45);
-  var customGray = Color(0xffB0BEC5);
-  final controller = Get.put(SwitchController());
-  final SwitchController ctrl = Get.find();
-  var showBorder = [];
+  // var Maincolor = Color(0xff313b45);
+  // var customGray = Color(0xffB0BEC5);
+
   @override
   Widget build(BuildContext context) {
     // print(showBorder[0]);
@@ -42,335 +53,9 @@ class Settings extends StatelessWidget {
                           height: 100,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: 1,
+                              itemCount: 7,
                               itemBuilder: (contex, index) {
-                                return Row(
-                                  //scrollDirection: Axis.horizontal,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                          //showBorder[index] = true;
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              // border: (showBorder[index])
-                                              //     ? Border.all(
-                                              //         width: 0.5,
-                                              //         color: Colors.white)
-                                              //     : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Maincolor,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color: Color(
-                                                                  0xff56ccd7)))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.black),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color: Colors
-                                                                  .yellowAccent))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.grey,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color: Colors
-                                                                  .green))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.blueAccent,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color:
-                                                                  Colors.red))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.purple,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color:
-                                                                  Colors.red))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: customGray,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('23',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color: Colors
-                                                                  .yellowAccent))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          controller
-                                              .changeBorderLocation(index);
-                                        },
-                                        child: Container(
-                                          width: 60,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              border: (showBorder[index])
-                                                  ? Border.all(
-                                                      width: 0.5,
-                                                      color: Colors.white)
-                                                  : null,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 40.0,
-                                                child: Container(
-                                                  //width: 240,
-                                                  decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Maincolor,
-                                                  ),
-                                                  child: Center(
-                                                      child: Text('MORE',
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              fontFamily:
-                                                                  'digital',
-                                                              color: Color(
-                                                                  0xff56ccd7)))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
+                                return rowList(index);
                               }),
                         ),
                       ),
@@ -383,6 +68,58 @@ class Settings extends StatelessWidget {
               ),
             )));
   }
+}
+
+rowList(index) {
+  return GetBuilder<SwitchController>(
+    init: SwitchController(),
+    initState: (_) {},
+    builder: (_) {
+      return Container(
+        padding: EdgeInsets.all(16),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            print(index);
+            controller.changeBorderLocation(index);
+            //showBorder[index] = true;
+          },
+          child: Container(
+            width: 60,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: (_.showBorder[index])
+                    ? Border.all(width: 0.5, color: Colors.white)
+                    : null,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Container(
+                  width: 40.0,
+                  height: 40.0,
+                  child: Container(
+                    //width: 240,
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: boxAry[index]['dColor'],
+                    ),
+                    child: Center(
+                        child: Text((index == 6) ? 'MORE' : '23',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'digital',
+                                color: boxAry[index]['textColor']))),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 Widget _myListView(BuildContext context) {

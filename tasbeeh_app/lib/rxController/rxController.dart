@@ -10,9 +10,12 @@ class SwitchController extends GetxController {
   var showBorder = [false, false, false, false, false, false, false];
 
   changeBorderLocation(index) {
-    showBorder.every((element) => false);
+    for (var i = 0; i < showBorder.length; i++) {
+      showBorder[i] = false;
+    }
     showBorder[index] = true;
     print(showBorder);
+    update();
   }
 
   changeVibration() {
