@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tasbeeh_app/counter_list.dart';
+import 'package:tasbeeh_app/settings.dart';
 
 import 'homepage.dart';
 
@@ -7,36 +9,33 @@ void main() {
   runApp(MyApp());
 }
 
-Map<int, Color> color = {
-  50: Color.fromRGBO(136, 14, 79, .1),
-  100: Color.fromRGBO(136, 14, 79, .2),
-  200: Color.fromRGBO(136, 14, 79, .3),
-  300: Color.fromRGBO(136, 14, 79, .4),
-  400: Color.fromRGBO(136, 14, 79, .5),
-  500: Color.fromRGBO(136, 14, 79, .6),
-  600: Color.fromRGBO(136, 14, 79, .7),
-  700: Color.fromRGBO(136, 14, 79, .8),
-  800: Color.fromRGBO(136, 14, 79, .9),
-  900: Color.fromRGBO(136, 14, 79, 1),
-};
-
 class MyApp extends StatelessWidget {
-  MaterialColor colorCustom = MaterialColor(0xff455564, color);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => MyHomePage()),
+        GetPage(
+            name: '/counterList',
+            page: () => CounterList(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: '/settings',
+            page: () => Settings(),
+            transition: Transition.cupertino),
+      ],
       title: 'Tasbeeh App',
       theme: ThemeData(
         buttonBarTheme: ButtonBarThemeData(
             // alignment: MainAxisAlignment.spaceEvenly,
 
             ),
-        primarySwatch: colorCustom,
+        // primarySwatch: Colors.black12,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      //home: MyHomePage(),
     );
   }
 }

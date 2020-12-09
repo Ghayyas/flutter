@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'rxController/rxController.dart';
+import 'components/alert.dart';
 
 final controller = Get.put(SwitchController());
 final SwitchController ctrl = Get.find();
+CustomDialogUI alert = new CustomDialogUI();
+
 //var showBorder = [];
 var boxAry = [
   {"dColor": Color(0xff313b45), "textColor": Color(0xff56ccd7)},
@@ -55,7 +58,7 @@ class Settings extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: 7,
                               itemBuilder: (contex, index) {
-                                return rowList(index);
+                                return rowList(index, context);
                               }),
                         ),
                       ),
@@ -70,7 +73,11 @@ class Settings extends StatelessWidget {
   }
 }
 
-rowList(index) {
+callAlert(context) async {
+  alert.showAlertDialog(context);
+}
+
+rowList(index, context) {
   return GetBuilder<SwitchController>(
     init: SwitchController(),
     initState: (_) {},
@@ -82,6 +89,10 @@ rowList(index) {
           highlightColor: Colors.transparent,
           onTap: () {
             print(index);
+            if (index == 6) {
+              callAlert(context);
+              //alert.
+            }
             controller.changeBorderLocation(index);
             //showBorder[index] = true;
           },
@@ -123,8 +134,8 @@ rowList(index) {
 }
 
 Widget _myListView(BuildContext context) {
-  final controller = Get.put(SwitchController());
-  final SwitchController ctrl = Get.find();
+  // final controller = Get.put(SwitchController());
+  // final SwitchController ctrl = Get.find();
   return ListView(
     children: <Widget>[
       ListTile(
@@ -178,7 +189,8 @@ Widget _myListView(BuildContext context) {
         trailing: Obx(() => Switch(
               value: ctrl.lapDisplay.value,
               onChanged: (bool newValue) {
-                controller.changeLapDisplay();
+                callAlert(context);
+                // controller.changeLapDisplay();
               },
             )),
       ),

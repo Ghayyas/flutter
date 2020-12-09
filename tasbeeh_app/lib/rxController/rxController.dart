@@ -7,19 +7,21 @@ class SwitchController extends GetxController {
   var volBtn = false.obs;
   var setLimit = false.obs;
   var lapDisplay = false.obs;
-  var showBorder = [false, false, false, false, false, false, false];
+  var showBorder = [true, false, false, false, false, false, false];
 
   changeBorderLocation(index) {
     for (var i = 0; i < showBorder.length; i++) {
       showBorder[i] = false;
     }
+    if (index == 6) return;
     showBorder[index] = true;
-    print(showBorder);
+    //print(showBorder);
     update();
   }
 
   changeVibration() {
-    return vibration.value = !vibration.value;
+    vibration.value = !vibration.value;
+    update();
   }
 
   changeSound() {

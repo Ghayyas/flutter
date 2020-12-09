@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
-import 'package:tasbeeh_app/settings.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'counter_list.dart';
 
@@ -14,16 +14,24 @@ final saveController = TextEditingController();
 var data;
 
 class MyHomePage extends StatelessWidget {
-  // int numVal = 0;
-  // final controller = Get.put(Controller());
-  // final Controller ctrl = Get.find();
+  DateTime backbuttonPressedTime;
 
-  // print(ctrl.percent);
+//Back button functionality
 
-  var numVal = 0.obs;
-  String dropValue;
-
-  //RxDouble<double> per = 0.0.obs;
+  Future<bool> onWillPop() async {
+    DateTime currentTime = DateTime.now();
+    bool backbutton = backbuttonPressedTime == null ||
+        currentTime.difference(backbuttonPressedTime) > Duration(seconds: 2);
+    if (backbutton) {
+      backbuttonPressedTime = currentTime;
+      Fluttertoast.showToast(
+          msg: 'Press again to exit the app',
+          backgroundColor: Colors.black,
+          textColor: Colors.white);
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,123 +63,115 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       // appBar: AppBar(),
       backgroundColor: Color(0xff455564),
-      body: Container(
-        padding: EdgeInsets.only(top: 40),
-        child: Column(
-          children: <Widget>[
-            GestureDetector(
-              child: Row(children: [
-                IconButton(
-                    icon: Icon(
-                      Icons.refresh,
-                      color: iconColors,
-                      size: 35.0,
-                    ),
-                    onPressed: () => _showMyDialog(context)),
-                IconButton(
-                    icon: Icon(
-                      Icons.add_circle_outline_outlined,
-                      color: iconColors,
-                      size: 35.0,
-                    ),
-                    onPressed: () => {
-                          if (data != null)
-                            {
-                              controller.clearArry(),
-                            }
-                          else
-                            {
-                              _titleDialog(context),
-                            }
-                        }),
-
-                IconButton(
-                    icon: Icon(
-                      Icons.reorder,
-                      color: iconColors,
-                      size: 35.0,
-                    ),
-                    onPressed: () async {
-                      data = await Get.to(CounterList());
-                      // print(data);
-                      controller.calledPre();
-                    }),
-
-                Spacer(), // use Spacer
-                // IconButton(
-                //     icon: Icon(
-                //       Icons.more_vert,
-                //       color: iconColors,
-                //       size: 35.0,
-                //     ),
-                //     onPressed: () => _menuButton()),
-                DropdownButton<String>(
-                  icon: Icon(Icons.more_vert),
-                  iconSize: 35.0,
-                  iconEnabledColor: iconColors,
-                  elevation: 16,
-                  // style: TextStyle(color: iconColors),
-                  underline: Container(
-                    height: 0,
-                    //color: Colors.deepPurpleAccent,
-                  ),
-                  onChanged: (String newValue) {
-                    dropValue = newValue;
-                  },
-                  onTap: () {
-                    switch (dropValue) {
-                      case ('Settings'):
-                        //print(dropValue);
-                        Get.to(Settings());
-                        break;
-                      case ('Counter list'):
-                        //print(dropValue);
-                        Get.to(CounterList());
-                        break;
-                    }
-                  },
-                  items: <String>[
-                    'Settings',
-                    'Counter list',
-                    'Get Pro',
-                    'Rate Us',
-                    'Privacy policy'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                      onTap: () {},
-                    );
-                  }).toList(),
-                ),
-              ]),
-            ),
-            Container(
-                padding: EdgeInsets.only(top: 200),
-                child: GetBuilder<GetxController>(
-                  init: controller,
-                  initState: (_) {},
-                  builder: (_) {
-                    return GestureDetector(
-                      onTap: () => {controller.increment()},
-                      child: Center(
-                        child: Obx(() => CircularPercentIndicator(
-                              radius: 260.0,
-                              // animation: true,
-                              //animationDuration: 100,
-                              lineWidth: 5.0,
-                              percent: ctrl.percent?.abs(),
-                              center: bigCircle,
-                              circularStrokeCap: CircularStrokeCap.round,
-
-                              progressColor: iconColors,
-                              backgroundColor: Color(0xff313b45),
-                            )),
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: Container(
+          padding: EdgeInsets.only(top: 40),
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                child: Row(children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.refresh,
+                        color: iconColors,
+                        size: 35.0,
                       ),
-                    );
-                  },
-                ))
-          ],
+                      onPressed: () {
+                        _showMyDialog(context);
+                      }),
+                  IconButton(
+                      icon: Icon(
+                        Icons.add_circle_outline_outlined,
+                        color: iconColors,
+                        size: 35.0,
+                      ),
+                      onPressed: () {
+                        // Navigator.pop(context, true);
+                        if (data != null) {
+                          controller.clearArry();
+                        } else {
+                          _titleDialog(context);
+                        }
+                      }),
+
+                  IconButton(
+                      icon: Icon(
+                        Icons.reorder,
+                        color: iconColors,
+                        size: 35.0,
+                      ),
+                      onPressed: () async {
+                        // Navigator.pop(context, true);
+
+                        data = await Get.to(CounterList());
+                        // print(data);
+                        controller.calledPre();
+                      }),
+
+                  Spacer(), // use Spacer
+
+                  DropdownButton<String>(
+                    icon: Icon(Icons.more_vert),
+                    iconSize: 35.0,
+                    iconEnabledColor: iconColors,
+                    elevation: 16,
+                    underline: Container(
+                      height: 0,
+                    ),
+                    onChanged: (String newValue) async {
+                      switch (newValue) {
+                        case ('Settings'):
+                          await Get.toNamed("/settings"); //Get.to(Settings());
+
+                          break;
+                        case ('Counter list'):
+                          print(newValue);
+                          await Get.toNamed(
+                              "/counterList"); //Get.to(CounterList());
+
+                          break;
+                      }
+                    },
+                    items: <String>[
+                      'Settings',
+                      'Counter list',
+                      'Get Pro',
+                      'Rate Us',
+                      'Privacy policy'
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ]),
+              ),
+              Container(
+                  padding: EdgeInsets.only(top: 200),
+                  child: GetBuilder<GetxController>(
+                    init: controller,
+                    initState: (_) {},
+                    builder: (_) {
+                      return GestureDetector(
+                        onTap: () => {controller.increment()},
+                        child: Center(
+                          child: Obx(() => CircularPercentIndicator(
+                                radius: 260.0,
+                                lineWidth: 5.0,
+                                percent: ctrl.percent?.abs(),
+                                center: bigCircle,
+                                circularStrokeCap: CircularStrokeCap.round,
+                                progressColor: iconColors,
+                                backgroundColor: Color(0xff313b45),
+                              )),
+                        ),
+                      );
+                    },
+                  ))
+            ],
+          ),
         ),
       ),
     );
@@ -190,7 +190,6 @@ Future<void> _showMyDialog(context) async {
           style: TextStyle(color: Color(0xff56ccd7)),
         )),
         content: SingleChildScrollView(
-          // padding: EdgeInsets.only(bottom: 2),
           child: ListBody(
             children: <Widget>[
               Center(
@@ -201,10 +200,6 @@ Future<void> _showMyDialog(context) async {
         ),
         actions: <Widget>[
           Row(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-            //crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Container(
                 padding: EdgeInsets.only(right: 30), //.all(10),
@@ -223,12 +218,8 @@ Future<void> _showMyDialog(context) async {
                   ),
                 ),
               ),
-//              const SizedBox(height: 20),
-              //const Spacer(),
               Container(
                 padding: EdgeInsets.all(10),
-
-                // padding: EdgeInsets.only(left: 30),
                 child: SizedBox(
                   height: 44,
                   width: 100,
@@ -243,16 +234,8 @@ Future<void> _showMyDialog(context) async {
                   ),
                 ),
               ),
-              // const SizedBox(height: 20),
             ],
           ),
-
-          // TextButton(
-          //   child: Text('Approve'),
-          //   onPressed: () {
-          //     Navigator.of(context).pop();
-          //   },
-          // ),
         ],
         backgroundColor: Color(0xff303b46),
       );
@@ -301,8 +284,6 @@ Future<void> _titleDialog(context) async {
                       child: RaisedButton(
                         color: Color(0xff465564),
                         onPressed: () {
-                          /// print(saveController.text);
-
                           ctrl.arry.add({
                             "id": DateTime.now().millisecondsSinceEpoch,
                             "name": saveController.text,
@@ -311,12 +292,6 @@ Future<void> _titleDialog(context) async {
                           });
                           Navigator.pop(context, true);
                           controller.clearArry();
-
-                          //print(ctrl.arry);
-                          // Timer(Duration(seconds: 2),
-                          //     () => controller.clearArray());
-
-                          //ctrl.arry.add()
                         },
                         child: Text(
                           "Save",
@@ -342,7 +317,7 @@ class Controller extends GetxController {
 
   void calledPre() {
     if (data != null) {
-      print(data['count']);
+      //print(data['count']);
 
       percent = data['percent'];
       count = data['count'];
@@ -367,7 +342,5 @@ class Controller extends GetxController {
     if (percent.abs() > 1.0) {
       percent = 0.0.obs;
     }
-
-    //  print(arry);
   }
 }
