@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tasbeeh_app/utls/theme.dart';
 
 class SwitchController extends GetxController {
   var vibration = false.obs;
@@ -16,9 +17,7 @@ class SwitchController extends GetxController {
     }
     if (index == 6) return;
     showBorder[index] = true;
-    //Get.changeTheme(Get.isDarkMode ? ThemeData.light() : ThemeData.dark());
-
-    //print(showBorder);
+    Get.changeTheme(AppTheme.themes[index]);
     update();
   }
 

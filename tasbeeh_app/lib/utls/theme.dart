@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   AppTheme._();
-
-  static final ThemeData defaultTheme = ThemeData(
+  static final themes = [
+    defaultTheme0,
+    defaultTheme1,
+    defaultTheme2,
+    defaultTheme3,
+    defaultTheme4,
+    defaultTheme5,
+  ];
+  static final ThemeData defaultTheme0 = ThemeData(
     iconTheme: IconThemeData(color: Color(0xff4ed6e1)),
     primaryColor: Color(0xff313b45),
     textTheme: TextTheme(
@@ -23,7 +30,7 @@ class AppTheme {
 //        visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  static final ThemeData darkTheme = ThemeData(
+  static final ThemeData defaultTheme1 = ThemeData(
     iconTheme: IconThemeData(color: Colors.yellowAccent),
     primaryColor: Colors.black,
     accentColor: Colors.yellowAccent,
@@ -45,7 +52,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  static final ThemeData customGrey = ThemeData(
+  static final ThemeData defaultTheme2 = ThemeData(
     iconTheme: IconThemeData(color: Colors.greenAccent),
     primaryColor: Colors.blueGrey[200],
     accentColor: Colors.greenAccent,
@@ -67,7 +74,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  static final ThemeData customBlue = ThemeData(
+  static final ThemeData defaultTheme3 = ThemeData(
     iconTheme: IconThemeData(color: Colors.red),
     primaryColor: Colors.lightBlue[800],
     accentColor: Colors.red,
@@ -89,7 +96,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  static final ThemeData customPink = ThemeData(
+  static final ThemeData defaultTheme4 = ThemeData(
     iconTheme: IconThemeData(color: Colors.red),
     primaryColor: Colors.purple[900],
     accentColor: Colors.red,
@@ -111,7 +118,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  static final ThemeData customGray = ThemeData(
+  static final ThemeData defaultTheme5 = ThemeData(
     iconTheme: IconThemeData(color: Colors.yellowAccent),
     primaryColor: Colors.grey[400],
     accentColor: Colors.yellowAccent,
