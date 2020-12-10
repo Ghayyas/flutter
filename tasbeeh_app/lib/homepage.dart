@@ -43,7 +43,8 @@ class MyHomePage extends StatelessWidget {
       width: 253.0,
       height: 250.0,
       decoration: new BoxDecoration(
-        color: Color(0xff313b45),
+        color: Get.theme.primaryColor,
+        //color: Color(0xff313b45),
         shape: BoxShape.circle,
       ),
       child: Center(
@@ -55,14 +56,16 @@ class MyHomePage extends StatelessWidget {
           return Obx(
             () => Text("${ctrl.count}",
                 style: TextStyle(
-                    fontFamily: 'digital', fontSize: 100.4, color: iconColors)),
+                  fontFamily: 'digital', fontSize: 100.4,
+                  // color: iconColors
+                )),
           );
         },
       )),
     );
     return Scaffold(
       // appBar: AppBar(),
-      backgroundColor: Color(0xff455564),
+      // backgroundColor: Color(0xff455564),
       body: WillPopScope(
         onWillPop: onWillPop,
         child: Container(
@@ -74,7 +77,7 @@ class MyHomePage extends StatelessWidget {
                   IconButton(
                       icon: Icon(
                         Icons.refresh,
-                        color: iconColors,
+                        // color: iconColors,
                         size: 35.0,
                       ),
                       onPressed: () {
@@ -83,7 +86,7 @@ class MyHomePage extends StatelessWidget {
                   IconButton(
                       icon: Icon(
                         Icons.add_circle_outline_outlined,
-                        color: iconColors,
+                        // color: iconColors,
                         size: 35.0,
                       ),
                       onPressed: () {
@@ -98,7 +101,7 @@ class MyHomePage extends StatelessWidget {
                   IconButton(
                       icon: Icon(
                         Icons.reorder,
-                        color: iconColors,
+                        // color: iconColors,
                         size: 35.0,
                       ),
                       onPressed: () async {
@@ -110,42 +113,53 @@ class MyHomePage extends StatelessWidget {
                       }),
 
                   Spacer(), // use Spacer
+                  new Theme(
+                      data: Theme.of(context).copyWith(
+                        canvasColor: Get.theme.scaffoldBackgroundColor,
+                      ),
+                      child: DropdownButton<String>(
+                        icon: Icon(Icons.more_vert),
+                        iconSize: 35.0,
+                        iconEnabledColor: Get.theme.iconTheme.color,
+                        elevation: 16,
+                        // style: TextStyle(
+                        //     backgroundColor: Get.theme.scaffoldBackgroundColor),
+                        underline: Container(
+                          height: 0,
+                        ),
+                        onChanged: (String newValue) async {
+                          switch (newValue) {
+                            case ('Settings'):
+                              await Get.toNamed(
+                                  "/settings"); //Get.to(Settings());
 
-                  DropdownButton<String>(
-                    icon: Icon(Icons.more_vert),
-                    iconSize: 35.0,
-                    iconEnabledColor: iconColors,
-                    elevation: 16,
-                    underline: Container(
-                      height: 0,
-                    ),
-                    onChanged: (String newValue) async {
-                      switch (newValue) {
-                        case ('Settings'):
-                          await Get.toNamed("/settings"); //Get.to(Settings());
+                              break;
+                            case ('Counter list'):
+                              print(newValue);
+                              await Get.toNamed(
+                                  "/counterList"); //Get.to(CounterList());
 
-                          break;
-                        case ('Counter list'):
-                          print(newValue);
-                          await Get.toNamed(
-                              "/counterList"); //Get.to(CounterList());
-
-                          break;
-                      }
-                    },
-                    items: <String>[
-                      'Settings',
-                      'Counter list',
-                      'Get Pro',
-                      'Rate Us',
-                      'Privacy policy'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
+                              break;
+                          }
+                        },
+                        items: <String>[
+                          'Settings',
+                          'Counter list',
+                          'Get Pro',
+                          'Rate Us',
+                          'Privacy policy'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              // style: TextStyle(
+                              //     backgroundColor:
+                              //         Get.theme.scaffoldBackgroundColor)
+                            ),
+                          );
+                        }).toList(),
+                      )),
                 ]),
               ),
               Container(
@@ -158,13 +172,15 @@ class MyHomePage extends StatelessWidget {
                         onTap: () => {controller.increment()},
                         child: Center(
                           child: Obx(() => CircularPercentIndicator(
-                                radius: 260.0,
-                                lineWidth: 5.0,
-                                percent: ctrl.percent?.abs(),
-                                center: bigCircle,
-                                circularStrokeCap: CircularStrokeCap.round,
-                                progressColor: iconColors,
-                                backgroundColor: Color(0xff313b45),
+                              radius: 260.0,
+                              lineWidth: 5.0,
+                              percent: ctrl.percent?.abs(),
+                              center: bigCircle,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              progressColor:
+                                  Get.theme.iconTheme.color, //iconColors,
+                              backgroundColor: Get.theme
+                                  .scaffoldBackgroundColor //Color(0xff313b45),
                               )),
                         ),
                       );
@@ -184,61 +200,70 @@ Future<void> _showMyDialog(context) async {
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Center(
-            child: Text(
-          'Reset',
-          style: TextStyle(color: Color(0xff56ccd7)),
-        )),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Center(
-                  child: Text('Do you wants to reset the counter?',
-                      style: TextStyle(color: Color(0xff56ccd7)))),
-            ],
+          title: Center(
+              child: Text(
+            'Reset',
+            //style: TextStyle(color: Color(0xff56ccd7)
+            //),
+          )),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Center(
+                    child: Text(
+                  'Do you wants to reset the counter?',
+                  // style: TextStyle(color: Color(0xff56ccd7))
+                )),
+              ],
+            ),
           ),
-        ),
-        actions: <Widget>[
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.only(right: 30), //.all(10),
-                child: SizedBox(
-                  height: 44,
-                  width: 100,
-                  child: RaisedButton(
-                    color: Color(0xff465564),
-                    onPressed: () {
-                      controller.clearArry();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('YES',
-                        style:
-                            TextStyle(fontSize: 12, color: Color(0xff56ccd7))),
+          actions: <Widget>[
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(right: 30), //.all(10),
+                  child: SizedBox(
+                    height: 44,
+                    width: 100,
+                    child: RaisedButton(
+                      // color: Color(0xff465564),
+                      onPressed: () {
+                        controller.clearArry();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('YES',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Get.theme.textTheme.bodyText2.color
+                              // color: Color(0xff56ccd7)
+                              )),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: SizedBox(
-                  height: 44,
-                  width: 100,
-                  child: RaisedButton(
-                    color: Color(0xff465564),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('CANCEL',
-                        style:
-                            TextStyle(fontSize: 12, color: Color(0xff56ccd7))),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: SizedBox(
+                    height: 44,
+                    width: 100,
+                    child: RaisedButton(
+                      // color: Color(0xff465564),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('CANCEL',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Get.theme.textTheme.bodyText2.color
+                              // color: Color(0xff56ccd7)
+                              )),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-        backgroundColor: Color(0xff303b46),
-      );
+              ],
+            ),
+          ],
+          backgroundColor: Get.theme.primaryColor //Color(0xff303b46),
+          );
     },
   );
 }
@@ -248,7 +273,7 @@ Future<void> _titleDialog(context) async {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Color(0xff303b46),
+          backgroundColor: Get.theme.primaryColor,
 
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(0.0)), //this right here
@@ -261,18 +286,19 @@ Future<void> _titleDialog(context) async {
               children: [
                 Text(
                   'Please save current counter',
-                  style: TextStyle(color: Color(0xff56ccd7)),
+                  // style: TextStyle(color: Color(0xff56ccd7)),
                 ),
                 TextField(
-                  cursorColor: const Color(0xFF1BC0C5),
-                  style: TextStyle(color: const Color(0xFF1BC0C5)),
+                  // cursorColor: const Color(0xFF1BC0C5),
+                  //  style: TextStyle(color: const Color(0xFF1BC0C5)),
                   decoration: InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xFF1BC0C5)),
-                      ),
-                      hintText: 'Title',
-                      hintStyle: TextStyle(color: const Color(0xFF1BC0C5)),
-                      focusColor: const Color(0xFF1BC0C5)),
+                    // focusedBorder: UnderlineInputBorder(
+                    //     //  borderSide: BorderSide(color: const Color(0xFF1BC0C5)),
+                    //     ),
+                    hintText: 'Title',
+                    // hintStyle: TextStyle(color: const Color(0xFF1BC0C5)),
+                    //focusColor: const Color(0xFF1BC0C5)
+                  ),
                   controller: saveController,
                 ),
                 Padding(
@@ -282,7 +308,7 @@ Future<void> _titleDialog(context) async {
                       width: 80.0,
                       height: 45,
                       child: RaisedButton(
-                        color: Color(0xff465564),
+                        // color: Color(0xff465564),
                         onPressed: () {
                           ctrl.arry.add({
                             "id": DateTime.now().millisecondsSinceEpoch,
@@ -295,7 +321,8 @@ Future<void> _titleDialog(context) async {
                         },
                         child: Text(
                           "Save",
-                          style: TextStyle(color: const Color(0xFF1BC0C5)),
+                          style: TextStyle(
+                              color: Get.theme.textTheme.bodyText2.color),
                         ),
                       ),
                     ),

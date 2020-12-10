@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SwitchController extends GetxController {
@@ -15,6 +16,8 @@ class SwitchController extends GetxController {
     }
     if (index == 6) return;
     showBorder[index] = true;
+    //Get.changeTheme(Get.isDarkMode ? ThemeData.light() : ThemeData.dark());
+
     //print(showBorder);
     update();
   }
