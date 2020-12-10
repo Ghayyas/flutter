@@ -13,9 +13,9 @@ var boxAry = [
   {"dColor": Color(0xff313b45), "textColor": Color(0xff56ccd7)},
   {"dColor": Colors.black, "textColor": Colors.yellowAccent},
   {"dColor": Colors.grey, "textColor": Colors.green},
-  {"dColor": Colors.blueAccent, "textColor": Colors.red},
-  {"dColor": Colors.purple, "textColor": Colors.red},
-  {"dColor": Color(0xffB0BEC5), "textColor": Colors.yellowAccent},
+  {"dColor": Colors.lightBlue[800], "textColor": Colors.red},
+  {"dColor": Colors.pink[900], "textColor": Colors.red},
+  {"dColor": Colors.grey[400], "textColor": Colors.yellowAccent},
   {"dColor": Color(0xff313b45), "textColor": Color(0xff56ccd7)}
 ];
 
@@ -27,7 +27,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(showBorder[0]);
     return Scaffold(
-        backgroundColor: Color(0xff455564),
+        //  backgroundColor: Color(0xff455564),
         body: Container(
             padding: EdgeInsets.only(
               top: 50,
@@ -43,7 +43,7 @@ class Settings extends StatelessWidget {
                         child: Text("Settings",
                             style: TextStyle(
                                 fontSize: 15.4,
-                                color: Color(0xff56ccd7),
+                                //color: Color(0xff56ccd7),
                                 fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -51,9 +51,13 @@ class Settings extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          height: 100,
+                          child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        height: 100,
+                        child: Theme(
+                          //Inherit the current Theme and override only the accentColor property
+                          data: Theme.of(context)
+                              .copyWith(accentColor: Colors.yellow),
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: 7,
@@ -61,7 +65,7 @@ class Settings extends StatelessWidget {
                                 return rowList(index, context);
                               }),
                         ),
-                      ),
+                      )),
                     ],
                   ),
                   Expanded(
@@ -141,6 +145,7 @@ Widget _myListView(BuildContext context) {
       ListTile(
         title: Text('Vibration', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.vibration.value,
               onChanged: (bool newValue) {
                 controller.changeVibration();
@@ -150,6 +155,7 @@ Widget _myListView(BuildContext context) {
       ListTile(
         title: Text('Sound', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.sound.value,
               onChanged: (bool newValue) {
                 controller.changeSound();
@@ -159,6 +165,7 @@ Widget _myListView(BuildContext context) {
       ListTile(
         title: Text('Minus Button', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.minBtn.value,
               onChanged: (bool newValue) {
                 controller.changeMinBtn();
@@ -169,6 +176,7 @@ Widget _myListView(BuildContext context) {
         title:
             Text('Volume Button Count', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.volBtn.value,
               onChanged: (bool newValue) {
                 controller.changeVolBtn();
@@ -178,6 +186,7 @@ Widget _myListView(BuildContext context) {
       ListTile(
         title: Text('Set Limit', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.setLimit.value,
               onChanged: (bool newValue) {
                 controller.changeLimit();
@@ -187,6 +196,7 @@ Widget _myListView(BuildContext context) {
       ListTile(
         title: Text('Lap Display', style: TextStyle(color: Colors.white)),
         trailing: Obx(() => Switch(
+              activeColor: Get.theme.toggleButtonsTheme.color,
               value: ctrl.lapDisplay.value,
               onChanged: (bool newValue) {
                 callAlert(context);

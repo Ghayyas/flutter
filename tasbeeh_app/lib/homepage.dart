@@ -200,70 +200,70 @@ Future<void> _showMyDialog(context) async {
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-          title: Center(
-              child: Text(
-            'Reset',
-            //style: TextStyle(color: Color(0xff56ccd7)
-            //),
-          )),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Center(
-                    child: Text(
-                  'Do you wants to reset the counter?',
-                  // style: TextStyle(color: Color(0xff56ccd7))
-                )),
-              ],
-            ),
+        title: Center(
+            child: Text(
+          'Reset',
+          //style: TextStyle(color: Color(0xff56ccd7)
+          //),
+        )),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Center(
+                  child: Text(
+                'Do you wants to reset the counter?',
+                // style: TextStyle(color: Color(0xff56ccd7))
+              )),
+            ],
           ),
-          actions: <Widget>[
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(right: 30), //.all(10),
-                  child: SizedBox(
-                    height: 44,
-                    width: 100,
-                    child: RaisedButton(
-                      // color: Color(0xff465564),
-                      onPressed: () {
-                        controller.clearArry();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('YES',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Get.theme.textTheme.bodyText2.color
-                              // color: Color(0xff56ccd7)
-                              )),
-                    ),
+        ),
+        actions: <Widget>[
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(right: 30), //.all(10),
+                child: SizedBox(
+                  height: 44,
+                  width: 100,
+                  child: RaisedButton(
+                    // color: Color(0xff465564),
+                    onPressed: () {
+                      controller.clearArry();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('YES',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Get.theme.textTheme.bodyText2.color
+                            // color: Color(0xff56ccd7)
+                            )),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: SizedBox(
-                    height: 44,
-                    width: 100,
-                    child: RaisedButton(
-                      // color: Color(0xff465564),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('CANCEL',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Get.theme.textTheme.bodyText2.color
-                              // color: Color(0xff56ccd7)
-                              )),
-                    ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: SizedBox(
+                  height: 44,
+                  width: 100,
+                  child: RaisedButton(
+                    // color: Color(0xff465564),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('CANCEL',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Get.theme.textTheme.bodyText2.color
+                            // color: Color(0xff56ccd7)
+                            )),
                   ),
                 ),
-              ],
-            ),
-          ],
-          backgroundColor: Get.theme.primaryColor //Color(0xff303b46),
-          );
+              ),
+            ],
+          ),
+        ],
+        backgroundColor: Color(0xff303b46),
+      );
     },
   );
 }

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               transition: Transition.cupertino),
         ],
         title: 'Tasbeeh App',
-        theme: AppTheme.darkTheme
+        theme: AppTheme.customGray
         // ThemeData(
         //   iconTheme: IconThemeData(color: Color(0xff4ed6e1)),
         //   primaryColor: Color(0xff313b45),

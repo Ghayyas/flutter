@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 abstract class Dialogue {
   // Future<void> showAlertDialog(context);
@@ -22,17 +23,16 @@ class CustomDialogUI implements Dialogue {
       onPressed: () {
         Navigator.of(context).pop();
       },
-      child: const Text('Get Pro',
-          style: TextStyle(fontSize: 12, color: Color(0xff56ccd7))),
+      child: const Text('Get Pro', style: TextStyle(fontSize: 12)),
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: Color(0xff303b46),
+      backgroundColor: Get.theme.primaryColor,
       title: Center(
           child: Text(
         'Only available in Pro version',
-        style: TextStyle(color: Color(0xff56ccd7), fontSize: 14),
+        style: TextStyle(fontSize: 14),
       )),
       content: Container(
         width: 70,
@@ -47,7 +47,9 @@ class CustomDialogUI implements Dialogue {
                 //padding: EdgeInsets.all(0),
                 child: Text(
                   "-" + listArray[index],
-                  style: TextStyle(fontSize: 14, color: Color(0xff56ccd7)),
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               );
             }),
