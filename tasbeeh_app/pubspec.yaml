@@ -23,6 +23,8 @@ environment:
 dependencies:
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
+  vibrate: ^0.0.4 
+  hardware_buttons: ^1.0.0
   flutter:
     sdk: flutter
   percent_indicator: "^2.1.7+2"

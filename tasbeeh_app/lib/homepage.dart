@@ -5,15 +5,24 @@ import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+import 'package:tasbeeh_app/rxController/rxController.dart';
+
+import 'package:vibrate/vibrate.dart';
 
 import 'counter_list.dart';
 import 'models/counterInterface.dart';
 import 'rxController/haive.dart';
 
+import 'package:hardware_buttons/hardware_buttons.dart';
+
 Color iconColors = Color(0xff4ed6e1);
 final controller = Get.put(Controller());
 final Controller ctrl = Get.find();
 final hiveController = Get.put(HiveController());
+
+final switchController = Get.put(SwitchController());
+final SwitchController switchCtrl = Get.find();
 final HiveController hCtrl = Get.find();
 
 final saveController = TextEditingController();
@@ -21,6 +30,9 @@ var data;
 
 class MyHomePage extends StatelessWidget {
   DateTime backbuttonPressedTime;
+
+  StreamSubscription _volumeButtonSubscription;
+  var canUseVol = switchController.volBtn.value;
 
 //Back button functionality
 
@@ -43,7 +55,21 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //print(ctrl.percent.abs());
+    print("canUseVol $canUseVol");
+    if (canUseVol) {
+      _volumeButtonSubscription =
+          volumeButtonEvents.listen((VolumeButtonEvent event) {
+        if (event == VolumeButtonEvent.VOLUME_UP) {
+          print('volume up');
+          controller.increment();
+        }
+        if (event == VolumeButtonEvent.VOLUME_DOWN) {
+          print('volume down');
+        }
+        // do something
+        // event is either VolumeButtonEvent.VOLUME_UP or VolumeButtonEvent.VOLUME_DOWN
+      });
+    }
     controller.calledPre();
     // CircularProgressIndicator(strokeWidth: 5, value: 0.7);
     Widget bigCircle = new Container(
@@ -178,12 +204,23 @@ class MyHomePage extends StatelessWidget {
               ),
               Container(
                   padding: EdgeInsets.only(top: 200),
-                  child: GetBuilder<GetxController>(
-                    init: controller,
+                  child: GetBuilder<SwitchController>(
+                    init: switchController,
                     initState: (_) {},
                     builder: (_) {
                       return GestureDetector(
-                        onTap: () => {controller.increment()},
+                        onTap: () {
+                          var soundPlay = _.sound.value;
+                          var vibrate = _.vibration.value; //Vibrate.vibrate();
+                          if (soundPlay) {
+                            SystemSound.play(SystemSoundType.click);
+                          }
+                          if (vibrate) {
+                            Vibrate.vibrate();
+                          }
+
+                          controller.increment();
+                        },
                         child: Center(
                           child: Obx(() => CircularPercentIndicator(
                               radius: 260.0,
@@ -405,7 +442,7 @@ class Controller extends GetxController {
 
   void increment() {
     count++;
-    percent = percent + 0.02;
+    percent = percent + 0.0311;
     if (percent.abs() > 1.0) {
       percent = 0.0.obs;
     }

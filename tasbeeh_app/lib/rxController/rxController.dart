@@ -32,15 +32,18 @@ class SwitchController extends GetxController {
   }
 
   changeSound() {
-    return sound.value = !sound.value;
+    sound.value = !sound.value;
+    update();
   }
 
   changeMinBtn() {
-    return minBtn.value = !minBtn.value;
+    minBtn.value = !minBtn.value;
+    update();
   }
 
   changeVolBtn() {
-    return volBtn.value = !volBtn.value;
+    volBtn.value = !volBtn.value;
+    update();
   }
 
   changeLimit() {
