@@ -1,15 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'counter_list.dart';
+import 'models/counterInterface.dart';
+import 'rxController/haive.dart';
 
 Color iconColors = Color(0xff4ed6e1);
 final controller = Get.put(Controller());
 final Controller ctrl = Get.find();
+final hiveController = Get.put(HiveController());
+final HiveController hCtrl = Get.find();
+
 final saveController = TextEditingController();
 var data;
 
@@ -23,6 +29,8 @@ class MyHomePage extends StatelessWidget {
     bool backbutton = backbuttonPressedTime == null ||
         currentTime.difference(backbuttonPressedTime) > Duration(seconds: 2);
     if (backbutton) {
+      ctrl.updateDb(ctrl.count.abs(), ctrl.percent.abs());
+
       backbuttonPressedTime = currentTime;
       Fluttertoast.showToast(
           msg: 'Press again to exit the app',
@@ -37,7 +45,6 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     //print(ctrl.percent.abs());
     controller.calledPre();
-
     // CircularProgressIndicator(strokeWidth: 5, value: 0.7);
     Widget bigCircle = new Container(
       width: 253.0,
@@ -91,7 +98,9 @@ class MyHomePage extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Navigator.pop(context, true);
+                        // print(data[0]?.id);
                         if (data != null) {
+                          data = null;
                           controller.clearArry();
                         } else {
                           _titleDialog(context);
@@ -107,7 +116,10 @@ class MyHomePage extends StatelessWidget {
                       onPressed: () async {
                         // Navigator.pop(context, true);
 
+                        ctrl.updateDb(ctrl.count.abs(), ctrl.percent.abs());
                         data = await Get.to(CounterList());
+                        // print('datahhh');
+                        // print(data[0]);
                         // print(data);
                         controller.calledPre();
                       }),
@@ -136,6 +148,8 @@ class MyHomePage extends StatelessWidget {
                               break;
                             case ('Counter list'):
                               print(newValue);
+                              ctrl.updateDb(
+                                  ctrl.count.abs(), ctrl.percent.abs());
                               await Get.toNamed(
                                   "/counterList"); //Get.to(CounterList());
 
@@ -310,12 +324,22 @@ Future<void> _titleDialog(context) async {
                       child: RaisedButton(
                         // color: Color(0xff465564),
                         onPressed: () {
-                          ctrl.arry.add({
-                            "id": DateTime.now().millisecondsSinceEpoch,
-                            "name": saveController.text,
-                            "count": ctrl.count,
-                            "percent": ctrl.percent
-                          });
+                          print("value");
+                          print(ctrl.count.abs());
+                          var addCount = CountList(
+                              DateTime.now().millisecondsSinceEpoch,
+                              saveController.text,
+                              ctrl.count.abs(),
+                              ctrl.percent.abs());
+                          // ctrl.arry.add(addCount);
+                          // print(addCount);
+                          hiveController.addCounterList(addCount);
+                          // ctrl.arry.add({
+                          //   "id": DateTime.now().millisecondsSinceEpoch,
+                          //   "name": saveController.text,
+                          //   "count": ctrl.count,
+                          //   "percent": ctrl.percent
+                          // });
                           Navigator.pop(context, true);
                           controller.clearArry();
                         },
@@ -337,7 +361,7 @@ Future<void> _titleDialog(context) async {
 
 class Controller extends GetxController {
   // var count = 0;
-  List<dynamic> arry = [];
+  List<dynamic> arry = [].obs;
   var percent;
   var count;
   var dropValue = 'Settings'.obs;
@@ -346,8 +370,8 @@ class Controller extends GetxController {
     if (data != null) {
       //print(data['count']);
 
-      percent = data['percent'];
-      count = data['count'];
+      percent = data[0]?.percentage;
+      count = data[0]?.count;
     } else {
       percent = 0.0.obs;
       count = 0.obs;
@@ -362,12 +386,29 @@ class Controller extends GetxController {
     update();
   }
 
+  updateDb(count, percent) {
+    // print("Update");
+
+    // print(data[0]?.count);
+    if (data != null) {
+      //   var arrkey = data.id;
+      //   var index = arry.indexWhere((element) => element.id == arrkey);
+      if (data[0] == null) return;
+      var filteredCount = Hive.box('counterlist');
+      // print('datahhh');
+      // print(data);
+      filteredCount.putAt(
+          data[1], CountList(data[0].id, data[0].name, count, percent));
+    }
+    refresh();
+  }
+
   void increment() {
     count++;
     percent = percent + 0.02;
-
     if (percent.abs() > 1.0) {
       percent = 0.0.obs;
     }
+    update();
   }
 }

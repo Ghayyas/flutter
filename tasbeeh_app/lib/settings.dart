@@ -54,17 +54,17 @@ class Settings extends StatelessWidget {
                           child: Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
                         height: 100,
-                        child: Theme(
-                          //Inherit the current Theme and override only the accentColor property
-                          data: Theme.of(context)
-                              .copyWith(accentColor: Colors.yellow),
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 7,
-                              itemBuilder: (contex, index) {
-                                return rowList(index, context);
-                              }),
-                        ),
+                        // child: Theme(
+                        //   //Inherit the current Theme and override only the accentColor property
+                        //   data: Theme.of(context)
+                        //       .copyWith(accentColor: Colors.yellow),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 7,
+                            itemBuilder: (contex, index) {
+                              return rowList(index, context);
+                            }),
+                        // ),
                       )),
                     ],
                   ),
@@ -216,12 +216,6 @@ Widget _myListView(BuildContext context) {
           ))),
           child: Text('33', style: TextStyle(color: Colors.white)),
         ),
-        // Obx(() => Switch(
-        //       value: ctrl.vibration.value,
-        //       onChanged: (bool newValue) {
-        //         controller.changeVibration();
-        //       },
-        //     )),
       ),
     ],
   );

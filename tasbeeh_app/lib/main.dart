@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:tasbeeh_app/counter_list.dart';
+import 'package:tasbeeh_app/models/counterInterface.dart';
 import 'package:tasbeeh_app/settings.dart';
 import 'package:tasbeeh_app/utls/theme.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'homepage.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('tasbeeh_app_theme');
+  Hive.registerAdapter(CountListAdapter());
+
+  await Hive.openBox('counterlist');
+  // Hive.box('counterlist').deleteFromDisk();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final box = Hive.box('counterlist').isNotEmpty;
+  final box2 = Hive.box('tasbeeh_app_theme').isNotEmpty;
+  final boxtheme = Hive.box('tasbeeh_app_theme').get(0);
+  final boxtheme1 = Hive.box('counterlist').get(0) as CountList;
+  // print(boxtheme);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print(box);
+    if (box) print(boxtheme1?.count);
+
     return GetMaterialApp(
         initialRoute: '/',
         getPages: [
@@ -28,7 +45,10 @@ class MyApp extends StatelessWidget {
               transition: Transition.cupertino),
         ],
         title: 'Tasbeeh App',
-        theme: AppTheme.defaultTheme0
+        theme: (box2)
+            ? AppTheme.themes[int.parse(boxtheme)]
+            : AppTheme.defaultTheme0 //AppTheme.defaultTheme0
+
         // ThemeData(
         //   iconTheme: IconThemeData(color: Color(0xff4ed6e1)),
         //   primaryColor: Color(0xff313b45),

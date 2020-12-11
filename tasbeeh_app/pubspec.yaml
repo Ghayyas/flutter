@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.1
   flutter:
     sdk: flutter
   percent_indicator: "^2.1.7+2"
@@ -33,6 +35,8 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  hive_generator: ^0.8.2
+  build_runner: ^1.10.9
   flutter_test:
     sdk: flutter
 

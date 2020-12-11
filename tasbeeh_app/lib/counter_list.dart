@@ -1,18 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:tasbeeh_app/rxController/haive.dart';
 
 import 'homepage.dart';
+import 'models/counterInterface.dart';
+// import 'models/counterInterface.dart';
 
-var Maincolor = Color(0xff56ccd7);
+// var Maincolor = Color(0xff56ccd7);
 final controller = Get.put(Controller());
 final Controller ctrl = Get.find();
+HiveController ctl = Get.put(HiveController());
+
+// CountList list;
 call() {
-  print(ctrl.arry);
+  // ctl.loadDatabase();
+  // final boxtheme = Hive.box('counterlist').get(0);
+  // print(boxtheme);
+  // print(ctrl.arry[0][list.name]);
 }
 
 class CounterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    call();
+    final counterList = Hive.box('counterlist');
     return Scaffold(
         //backgroundColor: Color(0xff455564),
         body: Container(
@@ -39,14 +54,24 @@ class CounterList extends StatelessWidget {
             //padding: EdgeInsets.all(20),
             //child: RaisedButton(onPressed: () => call()),
             child: Flexible(
-              flex: 1,
-              child: ListView.builder(
-                itemCount: ctrl.arry.length,
-                itemBuilder: (context, index) {
-                  return listItem(ctrl.arry[index]);
-                },
-              ),
-            ),
+                flex: 1,
+                child: ValueListenableBuilder(
+                    valueListenable: counterList.listenable(),
+                    builder: (context, box, _) {
+                      return ListView.builder(
+                        itemCount: counterList.length,
+                        itemBuilder: (context, index) {
+                          var getVal =
+                              Hive.box('counterlist').getAt(index) as CountList;
+
+                          return listItem(getVal, index);
+                        },
+                      );
+                    })
+
+                // },
+                // ),
+                ),
           )
         ],
       ),
@@ -54,11 +79,11 @@ class CounterList extends StatelessWidget {
   }
 }
 
-listItem(arr) {
-  // print(arr['count']);
+listItem(arr, index) {
+  // print(index);
   return GestureDetector(
     onTap: () {
-      Get.back(result: arr);
+      Get.back(result: [arr, index]);
     },
     child: Padding(
       padding: const EdgeInsets.all(1.0),
@@ -76,7 +101,7 @@ listItem(arr) {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "${arr['name']}",
+                  "${arr.name}",
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 18.0,
@@ -87,7 +112,7 @@ listItem(arr) {
               Spacer(),
               Text(
                 //'43',
-                "${arr['count']}",
+                "${arr.count}",
                 style: TextStyle(
                   fontSize: 15.0,
                   fontFamily: 'digital',
@@ -102,7 +127,9 @@ listItem(arr) {
                       color: Get.theme.iconTheme.color
                       // color: Maincolor
                       ),
-                  onPressed: null)
+                  onPressed: () {
+                    ctl.delDb(index);
+                  })
             ],
           ),
         ),

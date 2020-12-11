@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tasbeeh_app/utls/theme.dart';
+import './haive.dart';
 
 class SwitchController extends GetxController {
+  final controller = Get.put(HiveController());
+  final HiveController hiveCtrl = Get.find();
+
   var vibration = false.obs;
   var sound = false.obs;
   var minBtn = false.obs;
@@ -18,6 +22,7 @@ class SwitchController extends GetxController {
     if (index == 6) return;
     showBorder[index] = true;
     Get.changeTheme(AppTheme.themes[index]);
+    hiveCtrl.openHiveBoxTheme(index.toString());
     update();
   }
 
