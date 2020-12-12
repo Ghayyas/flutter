@@ -1,9 +1,9 @@
-import 'dart:async';
+// import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:tasbeeh_app/homepage.dart';
 import 'package:tasbeeh_app/models/counterInterface.dart';
+import 'package:tasbeeh_app/rxController/controller.dart';
 
 final controller = Get.put(Controller());
 final Controller ctrl = Get.find();
